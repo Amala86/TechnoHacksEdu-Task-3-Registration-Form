@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Sign Up form</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .wrapper {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input {
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        span.err {
+            color: red;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .recover {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .member {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .member a {
+            color: #3498db;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Login</h1>
+        <form action="login.html" method="post">
+            <input type="text" placeholder="Username" id="username" name="username" oninput="validateUsername()" required>
+            <span class="err" id="error1"></span>
+            <input type="password" placeholder="Password" id="confirmPassword" name="confirmPassword" oninput="validate_password()" required>
+            <span class="err" id="error3"></span>
+            <div class="recover">
+                <a href="#">Forgot Password?</a>
+            </div>
+        </form>
+        <button>Sign Up</button>
+        <div class="member">
+            New User? <a href="signup.html">Register Here</a>
+        </div>
+    </div>
+
+    <script>
+         function validateUsername() {
+        let username = document.getElementById('username').value;
+        
+        let usernamePattern = /^[A-Z][A-Za-z0-9]*\d.*$/;
+
+        if (usernamePattern.test(username)) {
+            document.getElementById('error1').innerHTML = "";
+            return true;
+        } else {
+            document.getElementById('error1').innerHTML = "*Username must start with a capital letter and contain at least one digit";
+            return false;
+        }
+    }
+    function validate_password() {
+        let password = document.getElementById('confirmPassword').value;
+        if (password.length == 0) {
+            document.getElementById('error3').innerHTML = "";
+        }
+        let uppercaseFlag = false;
+        let lowercaseFlag = false;
+        let specialCharFlag = false;
+        let excludedChars = ",.;:";
+        let specialChars = "!@#$%^&*()-_=+{}[]|'\"<>";
+
+        if (password.length < 8) {
+            document.getElementById('error3').innerHTML = "*Password must be at least 8 characters long";
+            return false;
+        }
+
+        for (let i = 0; i < password.length; i++) {
+            if (password[i] >= 'A' && password[i] <= 'Z') {
+                uppercaseFlag = true;
+            } else if (password[i] >= 'a' && password[i] <= 'z') {
+                lowercaseFlag = true;
+            } else if (specialChars.indexOf(password[i]) !== -1) {
+                specialCharFlag = true;
+            } else if (excludedChars.indexOf(password[i]) !== -1) {
+                document.getElementById('error3').innerHTML = "*Password must not contain , . ; :";
+                return false;
+            }
+        }
+
+        if (uppercaseFlag && lowercaseFlag && specialCharFlag) {
+            document.getElementById('error3').innerHTML = "";
+            return true;
+        } else {
+            document.getElementById('error3').innerHTML = "*Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 special character";
+            return false;
+        }
+    }
+    </script>
+</body>
+</html>
